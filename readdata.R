@@ -9,7 +9,7 @@ library(glmnet)
 library(caret)
 library(plotly)
 
-setwd("~/Documents/M2/Cours_Agro_J1_Programmation_R/archive/projet")
+setwd("C:/Users/Melanie/Documents/GitHub/airbnb")
 testdata <- fread("./AB_NYC_2019.csv", header=T,stringsAsFactors = T)
 # apres verif des prix sur airbnb correction
 testdata[25434,10] <- 55
