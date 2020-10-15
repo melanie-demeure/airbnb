@@ -40,7 +40,7 @@ shinyServer(function(input, output, session) {
                              lat = filtered_data()$latitude,
                              radius = 3,
                              color = ~pal(filtered_data()$room_type),
-                             popup = paste("Quartier : ",rbnb$neighbourhood_group,"<br>","Nom du proprietaire : ",rbnb$host_name, "<br>","Prix par nuit en dollars :",rbnb$price),
+                             popup = paste("Quartier : ",rbnb$neighbourhood_group,"<br>","Nom du proprietaire : ",rbnb$host_name),
                              popupOptions = popupOptions(maxWidth = 1000, closeOnClick = TRUE),
                              stroke = FALSE, fillOpacity = 0.8) %>%
             addLegend(position = "topright",
