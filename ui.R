@@ -36,7 +36,8 @@ shinyUI(navbarPage(theme = "style.css",
                                                  value = c(min, max),
                                                  step = 10
                                      )
-                              )
+                              ),
+                              
                             ), 
                             fluidRow(
                               column(width = 6,

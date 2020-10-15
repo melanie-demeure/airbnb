@@ -17,19 +17,24 @@ shinyServer(function(input, output, session) {
     })
     
 # MAP
+    
+    
+    
     filtered_data <- reactive({
         quartier = input$quartier
         logement = input$logement
         price_min = input$price[1]
         price_max = input$price[2]
         rbnb %>%
-            select(neighbourhood_group,room_type,longitude,latitude,price) %>%
+            select(neighbourhood_group,host_name,room_type,longitude,latitude,price) %>%
             filter(neighbourhood_group == quartier & room_type == logement & price >= price_min & price <= price_max)
     
 
         })
     
     pal <- colorFactor(palette = c("#FF3399","#CC0066","#9900CC"), rbnb$room_type)
+    
+    
     
     output$map <- renderLeaflet({
         leaflet(rbnb)%>% 
@@ -40,7 +45,7 @@ shinyServer(function(input, output, session) {
                              lat = filtered_data()$latitude,
                              radius = 3,
                              color = ~pal(filtered_data()$room_type),
-                             popup = paste("Quartier : ",rbnb$neighbourhood_group,"<br>","Nom du proprietaire : ",rbnb$host_name),
+                             popup = paste("Quartier : ",filtered_data()$neighbourhood_group,"<br>","Nom du proprietaire : ",filtered_data()$host_name,"<br>","Prix : ",filtered_data()$price),
                              popupOptions = popupOptions(maxWidth = 1000, closeOnClick = TRUE),
                              stroke = FALSE, fillOpacity = 0.8) %>%
             addLegend(position = "topright",
