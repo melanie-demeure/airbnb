@@ -29,17 +29,18 @@ shinyServer(function(input, output, session) {
 
         })
     
-    pal <- colorFactor("viridis", rbnb$room_type)
+    pal <- colorFactor(palette = c("#FF3399","#CC0066","#9900CC"), rbnb$room_type)
     
     output$map <- renderLeaflet({
         leaflet(rbnb)%>% 
             setView(lng = -73.9059, lat = 40.7128, zoom = 11) %>% 
             addTiles() %>% 
+            addProviderTiles(providers$Esri.NatGeoWorldMap)%>%
             addCircleMarkers(lng = filtered_data()$longitude, 
                              lat = filtered_data()$latitude,
                              radius = 3,
                              color = ~pal(filtered_data()$room_type),
-                             popup = ~rbnb$name,
+                             popup = paste("Quartier : ",rbnb$neighbourhood_group,"<br>","Nom du proprietaire : ",rbnb$host_name, "<br>","Prix par nuit en dollars :",rbnb$price),
                              popupOptions = popupOptions(maxWidth = 1000, closeOnClick = TRUE),
                              stroke = FALSE, fillOpacity = 0.8) %>%
             addLegend(position = "topright",
@@ -54,7 +55,7 @@ shinyServer(function(input, output, session) {
         select(neighbourhood_group, room_type, price)
     
     output$plot <- renderPlot({
-        ggplot(filtered_dataPlot %>% filter(neighbourhood_group == input$quartier),aes(x = price,fill = room_type)) + geom_density() +  coord_cartesian(xlim = c(-0, 500)) + labs(title = "Distribution des prix par type de logement")
+        ggplot(filtered_dataPlot %>% filter(neighbourhood_group == input$quartier),aes(x = price,fill = room_type)) + geom_density() +  coord_cartesian(xlim = c(-0, 500)) + labs(title = "Distribution des prix par type de logement") + scale_fill_manual(values=c("#FF3399","#CC0066","#9900CC"))
     })
     
    observe (if (input$quartier == "Bronx"){ 
@@ -206,4 +207,3 @@ shinyServer(function(input, output, session) {
    
     
 })
-

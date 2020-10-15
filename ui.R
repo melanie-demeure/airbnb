@@ -94,7 +94,7 @@ shinyUI(navbarPage(theme = "style.css",
                    ),
                    
                    #4 Notre entreprise
-                   tabPanel("Nous",
+                   tabPanel("Notre projet",
                             includeHTML("nous.html"),
                             includeHTML("projet.html")
                             
